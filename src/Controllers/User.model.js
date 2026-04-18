@@ -5,6 +5,7 @@ import { asynchandler } from "../Utils/asynchandler.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 
 export const registerUser = asynchandler(async (req, res) => {
+    const { Username, email, Password}
 
   // check if Users exists
   if ([username, email, Password].some((field) => field?.trim() === "")) {
@@ -36,12 +37,24 @@ export const registerUser = asynchandler(async (req, res) => {
   return res
   .status(201)
   .json(new ApiResponse(200, createdUser, "User registered Successfully"));
-};
+});
 
 export const loginUser = asynchandler(async (req, res) => {
-    const { email, Password } = req.body
+    const { email, Password, username } = req.body
 
-    // if ([email, Password])
+    if (!email && !username) {
+        throw new ApiError(400, "bad request")
+    }
+
+    const UserFind = await User.findOne({
+        $or: [{username}, {email}]
+    });
+
+    if (!UserFind) {
+        throw new ApiError(404, "User does not exist");
+    }
+
+    const PasswordValidation = await
 })
 
 export { registerUser, loginUser }
