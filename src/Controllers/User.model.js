@@ -1,16 +1,17 @@
 import { ApiError } from "../Utils/ApiError.js";
 import { User } from "../models/User.model.js";
 import { Jwt } from "jsonwebtoken";
+import { asynchandler } from "../Utils/asynchandler.js";
+import { ApiResponse } from "../Utils/ApiResponse.js";
 
-export const registerUser = async (res, req) => {
-  const { email, username, Password } = req.body;
+export const registerUser = asynchandler(async (req, res) => {
 
   // check if Users exists
   if ([username, email, Password].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
 
-  const existedUser = await User.findone({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
@@ -36,3 +37,11 @@ export const registerUser = async (res, req) => {
   .status(201)
   .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 };
+
+export const loginUser = asynchandler(async (req, res) => {
+    const { email, Password } = req.body
+
+    // if ([email, Password])
+})
+
+export { registerUser, loginUser }
