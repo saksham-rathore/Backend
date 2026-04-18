@@ -22,10 +22,10 @@ const userSchema = new Schema(
         Password: {
             type: String,
             required: true,
-        }
+        },
         refreshToken: {
             type: String,
-        }
+        },
     },{
         timestamps: true
     }
