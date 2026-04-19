@@ -3,16 +3,17 @@ import { User } from "../models/User.model.js";
 import { Jwt } from "jsonwebtoken";
 import { asynchandler } from "../Utils/asynchandler.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
-import cookieParser from "cookie-parser";
+
 
 const generateAccessRefreshToken = async (userId) => {
   try {
-    const User = await user.findById(userId);
+    const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
-    user.save({ validatebeforesave: false });
+    await user.save({ validatebeforesave: false });
+    return {accessToken, refreshToken}
   } catch (error) {
     throw new ApiError(500, "something went wrong");
   }
@@ -102,10 +103,10 @@ export const loginUser = asynchandler(async (req, res) => {
   );
 });
 
-const logoutUser = asynchanler(async(req, res) => {
+const logoutUser = asynchandler(async(req, res) => {
   await User.findByIdAndUpdate(
     
   )
 })
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, logoutUser };

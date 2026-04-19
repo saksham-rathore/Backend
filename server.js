@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 import cookieParser from "cookie-parser";
-const connectDB = require('./src/config/db');
-require('dotenv').config();
+import connectDB from './src/config/db.js';
+import 'dotenv/config';
 
 const app = express();
 
