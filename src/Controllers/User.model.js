@@ -3,6 +3,7 @@ import { User } from "../models/User.model.js";
 import { Jwt } from "jsonwebtoken";
 import { asynchandler } from "../Utils/asynchandler.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
+import cookieParser from "cookie-parser";
 
 const generateAccessRefreshToken = async (userId) => {
   try {
