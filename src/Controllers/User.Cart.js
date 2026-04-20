@@ -20,6 +20,16 @@ const addtocart = asynchandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
+  const existingItem = await Cart.findOne({
+    user: userId,
+    product: productId
+  })
+
+  if (existingItem) {
+    existingItem.quantity =+ quantity;
+    await existingItem.save();
+  }
+
   
 });
 
