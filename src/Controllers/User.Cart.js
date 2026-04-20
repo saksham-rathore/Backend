@@ -14,6 +14,10 @@ const addtocart = asynchandler(async (req, res) => {
     throw new ApiError(404, "ProductId or quantity is required");
   }
 
+  if (quantity > 0) {
+    throw new ApiError(400, "Quantity must be greater then 0");
+  }
+
   const product = await Product.findById(productId);
 
   if (!product) {
@@ -35,6 +39,8 @@ const addtocart = asynchandler(async (req, res) => {
       quantity
     });
   }
+  
+  return res.status(200).json(new ApiResponse(200, {}, "product added to cart"));
 });
 
 export { addtocart };
