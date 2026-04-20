@@ -22,15 +22,19 @@ const addtocart = asynchandler(async (req, res) => {
 
   const existingItem = await Cart.findOne({
     user: userId,
-    product: productId
-  })
+    product: productId,
+  });
 
   if (existingItem) {
-    existingItem.quantity =+ quantity;
+    existingItem.quantity += quantity;
     await existingItem.save();
+  } else {
+    await Cart.create({
+      user: userId,
+      product: productId,
+      quantity
+    });
   }
-
-  
 });
 
 export { addtocart };
