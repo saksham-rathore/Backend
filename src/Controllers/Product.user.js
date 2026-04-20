@@ -21,3 +21,19 @@ const createProduct = asynchandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(201, newProduct, "Product created"));
 });
+
+const GetAllProducts = asynchandler(async (req, res) => {
+  const Products = await ProductModel.find();
+
+  return res.status(200).json(new ApiResponse(200, "All products"));
+});
+
+const GetSingleProduct = asynchandler(async (req, res) => {
+  const Product = await ProductModel.findById(id);
+
+  if (!Product) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, "Product found"));
+});
