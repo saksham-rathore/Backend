@@ -128,4 +128,24 @@ const logoutUser = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out"));
 });
 
+const refreshAccessToken = asynchandler(async (req, res) => {
+  const incomingRefreshToken =
+    req.cookies.refreshToken || req.body.refreshToken;
+
+  if (!incomingRefreshToken) {
+    throw new ApiError(401, "Unauthorized request");
+  }
+
+  const decodedToken = jwt.verify(
+    incomingRefreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+  );
+
+  const user = await User.findById(decodedToken?._id);
+
+  if (!user) {
+    throw new ApiError(401, "Invalid refresh Token");
+  }
+});
+
 export { registerUser, loginUser, logoutUser };
