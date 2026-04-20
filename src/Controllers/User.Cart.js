@@ -7,7 +7,12 @@ import { Cart } from "../models/User.Cart";
 
 const addtocart = asynchandler(async (req, res) => {
     const {productId, quantity} = req.body
-    
+
+    const existingUser = await User.findById(req.user._id)
+
+     if (!existedUser) {
+    throw new ApiError(404, "User doesn't exists");
+  }
 })
 
 export {addtocart}
