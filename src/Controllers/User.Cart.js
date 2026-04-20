@@ -6,13 +6,21 @@ import { Product } from "../models/Product.User";
 import { Cart } from "../models/User.Cart";
 
 const addtocart = asynchandler(async (req, res) => {
-    const {productId, quantity} = req.body
+  const { productId, quantity } = req.body;
 
-    const existingUser = await User.findById(req.user._id)
+  const userId = req.user._id;
 
-     if (!existedUser) {
-    throw new ApiError(404, "User doesn't exists");
+  if (!productId || !quantity) {
+    throw new ApiError(404, "ProductId or quantity is required");
   }
-})
 
-export {addtocart}
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  
+});
+
+export { addtocart };
