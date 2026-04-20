@@ -37,3 +37,31 @@ const GetSingleProduct = asynchandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, "Product found"));
 });
+
+const UpdateProduct = asynchandler(async (req, res) => {
+  const { id } = req.params;
+  const Update = await ProductModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+});
+
+const DeleteProduct = asynchandler(async (req, res) => {
+  const { id } = req.params;
+
+  const deleted = await ProductModel.findByIdAndDelete(id);
+
+  if (!deleted) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, {}, "Product deleted"));
+});
+
+
+export {
+    createProduct,
+    GetAllProducts,
+    GetSingleProduct,
+    UpdateProduct,
+    DeleteProduct,
+}
