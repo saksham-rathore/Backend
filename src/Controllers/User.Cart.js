@@ -43,4 +43,6 @@ const addtocart = asynchandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, {}, "product added to cart"));
 });
 
-export { addtocart };
+export {
+    addtocart
+};

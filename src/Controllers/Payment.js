@@ -37,3 +37,7 @@ const Payment = asynchandler(async (req, res) => {
     payment,
   });
 });
+
+export {
+    Payment
+}

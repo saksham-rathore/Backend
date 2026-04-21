@@ -76,3 +76,29 @@ const UpdateOrder = asynchandler(async (req, res) => {
     order,
   });
 });
+
+
+// delete order 
+const DeleteOrder = asynchandler(async (req, res) => {
+  const { id } = req.params;
+  const order = await order.findbyId(id);
+
+  if (!order) {
+    throw new ApiError(404, "order not found");
+  }
+
+  await order.remove();
+
+  res.status(200).json({
+    success: true,
+    message: "order deleted",
+  });
+});
+
+export {
+  createOrder,
+  Getallorders,
+  GetSingleOrder,
+  UpdateOrder,
+  DeleteOrder,
+};
