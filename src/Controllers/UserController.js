@@ -14,7 +14,8 @@ const generateAccessRefreshToken = async (userId) => {
     await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(500, "something went wrong while generations access ir refresh token");
+    console.log("ERROR 👉", error);
+    throw new ApiError(500, "something went wrong while generations access or refresh token");
   }
 };
 
@@ -55,8 +56,6 @@ const registerUser = asynchandler(async (req, res) => {
 
 const loginUser = asynchandler(async (req, res) => {
   const { email, Password, username } = req.body;
-
-  console.log("user", req.body);
 
   if (!email && !username) {
     throw new ApiError(400, "email or username required");
