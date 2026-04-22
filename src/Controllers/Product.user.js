@@ -5,37 +5,43 @@ import { ApiError } from "../Utils/ApiError";
 import { ApiResponse } from "../Utils/ApiResponse";
 
 const createProduct = asynchandler(async (req, res) => {
-  const { Product, Price, Quatity } = req.body;
+  const { Product, Price, Quantity } = req.body;
 
-  if (!Product || !Price || !Quatity) {
+  if (!Product || !Price || !Quantity) {
     throw new ApiError(400, "All fields are required");
   }
 
-  const newProduct = await ProductModel.create({
+  const newProduct = await Product.create({
     Product,
     Price,
-    Quatity,
+    Quantity,
   });
 
-  return res
-    .status(201)
-    .json(new ApiResponse(201, newProduct, "Product created"));
+  console.log("SAVED:", newProduct);
+  const save = await newProduct.save();
+
+  return res.status(201).json(new ApiResponse(201, save, "Product created"));
 });
 
-const GetAllProducts = asynchandler(async (req, res) => {
+const getAllProducts = asynchandler(async (req, res) => {
   const Products = await ProductModel.find();
 
-  return res.status(200).json(new ApiResponse(200, "All products"));
+  if (Products.length === 0) {
+    return res.status(200).json(new ApiResponse(200, [], "No products found"));
+  }
+
+  return res.status(200).json(new ApiResponse(200, Products, "All products"));
 });
 
-const GetSingleProduct = asynchandler(async (req, res) => {
-  const Product = await ProductModel.findById(id);
+const getSingleProduct = asynchandler(async (req, res) => {
+  const { id: productId } = req.params;
+  const product = await ProductModel.findById(productId);
 
-  if (!Product) {
+  if (!product) {
     throw new ApiError(404, "Product not found");
   }
 
-  return res.status(200).json(new ApiResponse(200, "Product found"));
+  return res.status(200).json(new ApiResponse(200, product, "Product found"));
 });
 
 const UpdateProduct = asynchandler(async (req, res) => {
@@ -57,11 +63,10 @@ const DeleteProduct = asynchandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, {}, "Product deleted"));
 });
 
-
 export {
-    createProduct,
-    GetAllProducts,
-    GetSingleProduct,
-    UpdateProduct,
-    DeleteProduct,
-}
+  createProduct,
+  GetAllProducts,
+  GetSingleProduct,
+  UpdateProduct,
+  DeleteProduct,
+};

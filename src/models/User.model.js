@@ -35,7 +35,6 @@ userSchema.pre("save", async function (next) {
     if(!this.isModified("Password")) return next();
 
     this.Password = await bcrypt.hash(this.Password, 10)
-    next()
 })
 
 
@@ -61,8 +60,8 @@ userSchema.methods.generateAccessToken = function(){
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {
-            email: this.email,
-            Password: this.Password
+            _id: this._id,
+            
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
