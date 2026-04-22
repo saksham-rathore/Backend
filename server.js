@@ -63,7 +63,7 @@ app.post("/getallproducts", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "All products fetched successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -72,7 +72,7 @@ app.post("/getsingleproduct", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Single product fetched successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -81,7 +81,7 @@ app.post("/updateproduct", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Updated product successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -90,7 +90,7 @@ app.post("/deleteproduct", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Deleted product successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -99,7 +99,7 @@ app.post("/addtocart", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Product added to cart successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -108,7 +108,7 @@ app.post("/getcart", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Cart fetched successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -117,7 +117,7 @@ app.post("/updatecart", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Cart updated successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -126,7 +126,7 @@ app.post("/deletecart", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "delete Cart successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -135,7 +135,7 @@ app.post("/createOrder", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Order created successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -144,7 +144,7 @@ app.post("/getallorders", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "All orders fetched successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -153,7 +153,7 @@ app.post("/getsingleorder", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "Single order fetched successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -162,7 +162,7 @@ app.post("/updateorder", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "order updated successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -171,7 +171,7 @@ app.post("/deleteorder", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "order deleted successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -180,7 +180,7 @@ app.post("/payment", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "payment done successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -189,7 +189,7 @@ app.post("/getpayment", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "get payment successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -198,7 +198,7 @@ app.post("/updatepayment", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "update payment successfully",
         data: {Product, Price, Quatity}
     });
 });
@@ -207,7 +207,7 @@ app.post("/deletepayment", (req, res) => {
     const {Product, Price, Quatity} = req.body;
 
     res.json({
-        message: "Product created successfully",
+        message: "delete payment successfully",
         data: {Product, Price, Quatity}
     });
 });
