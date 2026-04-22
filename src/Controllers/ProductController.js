@@ -1,23 +1,22 @@
-import { asynchandler } from "../Utils/asynchandler";
-import { User } from "../models/User.model";
-import { Product } from "../models/Product.User";
-import { ApiError } from "../Utils/ApiError";
-import { ApiResponse } from "../Utils/ApiResponse";
+import { asynchandler } from "../Utils/asynchandler.js";
+import { User } from "../models/User.model.js";
+import { Product } from "../models/Product.User.js";
+import { ApiError } from "../Utils/ApiError.js";
+import { ApiResponse } from "../Utils/ApiResponse.js";
 
 const createProduct = asynchandler(async (req, res) => {
-  const { Product, Price, Quantity } = req.body;
+  const { product: ProductName, Price, Quantity } = req.body;
 
-  if (!Product || !Price || !Quantity) {
+  if (!ProductName || !Price || !Quantity) {
     throw new ApiError(400, "All fields are required");
   }
 
   const newProduct = await Product.create({
-    Product,
+    Product: ProductName,
     Price,
     Quantity,
   });
 
-  console.log("SAVED:", newProduct);
   const save = await newProduct.save();
 
   return res.status(201).json(new ApiResponse(201, save, "Product created"));
@@ -26,11 +25,11 @@ const createProduct = asynchandler(async (req, res) => {
 const getAllProducts = asynchandler(async (req, res) => {
   const Products = await ProductModel.find();
 
-  if (Products.length === 0) {
+  if (products.length === 0) {
     return res.status(200).json(new ApiResponse(200, [], "No products found"));
   }
 
-  return res.status(200).json(new ApiResponse(200, Products, "All products"));
+  return res.status(200).json(new ApiResponse(200, products, "All products"));
 });
 
 const getSingleProduct = asynchandler(async (req, res) => {
@@ -65,8 +64,8 @@ const DeleteProduct = asynchandler(async (req, res) => {
 
 export {
   createProduct,
-  GetAllProducts,
-  GetSingleProduct,
+  getAllProducts,
+  getSingleProduct,
   UpdateProduct,
   DeleteProduct,
 };

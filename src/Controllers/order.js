@@ -1,10 +1,10 @@
 import { ApiError } from "../Utils/ApiError.js";
 import { User } from "../models/User.model.js";
-import jwt from "jsonwebtoken";
-import { asynchandler } from "../Utils/asynchandler.js";
+import { Product } from "../models/Product.User.js";
+import { Order } from "../models/Order.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
+import { asynchandler } from "../Utils/asynchandler.js";
 
-// create order
 const createOrder = asynchandler(async (req, res) => {
   const { items, address, Payment, TotalPrice } = req.body;
 
@@ -23,76 +23,59 @@ const createOrder = asynchandler(async (req, res) => {
   const order = await Order.create({
     user: req.user._id,
     items,
-    address,
+    Address: address, // Matching model schema
     Payment,
     TotalPrice,
   });
 
-  return res.status(201).json({
-    success: true,
-    order,
-  });
+  return res.status(201).json(new ApiResponse(201, order, "Order created"));
 });
 
-// get all orders
 const Getallorders = asynchandler(async (req, res) => {
-  const orders = await Order.find({ uesr: req.user._id })
+  const orders = await Order.find({ user: req.user._id })
     .populate("items")
-    .populate("payments");
+    .populate("Payment");
+    
+  return res.status(200).json(new ApiResponse(200, orders, "Orders fetched"));
 });
 
-// get single order
 const GetSingleOrder = asynchandler(async (req, res) => {
   const order = await order
     .findbyId(req.params.id)
     .populate("items")
-    .populate("payments");
+    .populate("Payment");
 
   if (!order) {
-    throw new ApiError(404, "order not found");
+    throw new ApiError(404, "Order not found");
   }
 
-  res.status(200).json({
-    success: true,
-    order,
-  });
+  return res.status(200).json(new ApiResponse(200, order, "Order found"));
 });
 
-// Update order
 const UpdateOrder = asynchandler(async (req, res) => {
   const { address, status } = req.body;
-  const order = await order.findbyId(req.params.id);
+  const order = await Order.findById(req.params.id);
 
   if (!order) {
-    throw new ApiError(404, "order not found");
+    throw new ApiError(404, "Order not found");
   }
 
-  if (address) order.address = address;
-  if (status) order.status = status;
+  if (address) order.Address = address;
+  if (status) order.Status = status;
   await order.save();
 
-  res.status(200).json({
-    success: true,
-    order,
-  });
+  return res.status(200).json(new ApiResponse(200, order, "Order updated"));
 });
 
-
-// delete order 
 const DeleteOrder = asynchandler(async (req, res) => {
   const { id } = req.params;
-  const order = await order.findbyId(id);
+  const order = await Order.findByIdAndDelete(id);
 
   if (!order) {
-    throw new ApiError(404, "order not found");
+    throw new ApiError(404, "Order not found");
   }
 
-  await order.remove();
-
-  res.status(200).json({
-    success: true,
-    message: "order deleted",
-  });
+  return res.status(200).json(new ApiResponse(200, {}, "Order deleted"));
 });
 
 export {
