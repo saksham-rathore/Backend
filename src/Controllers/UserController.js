@@ -14,7 +14,7 @@ const generateAccessRefreshToken = async (userId) => {
     await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(500, "something went wrong");
+    throw new ApiError(500, "something went wrong while generations access ir refresh token");
   }
 };
 
@@ -56,6 +56,8 @@ const registerUser = asynchandler(async (req, res) => {
 const loginUser = asynchandler(async (req, res) => {
   const { email, Password, username } = req.body;
 
+  console.log("user", req.body);
+
   if (!email && !username) {
     throw new ApiError(400, "email or username required");
   }
@@ -68,24 +70,35 @@ const loginUser = asynchandler(async (req, res) => {
     throw new ApiError(404, "User does not exist");
   }
 
-  const PasswordValidation = await user.ispasswordCorrect(Password);
+  console.log("user", user);
 
-  if (!PasswordValidation) {
+  const passwordValidation = await user.ispasswordCorrect(Password);
+
+  if (!passwordValidation ) {
     throw new ApiError(401, "Invalid user credentials");
   }
+
+  console.log("PasswordValidation", passwordValidation);
 
   const { refreshToken, accessToken } = await generateAccessRefreshToken(
     user._id,
   );
 
+  console.log("refreshToken", refreshToken);
+  console.log("accessToken", accessToken);
+
   const loggedInUser = await User.findById(user._id).select(
     "-Password -refreshToken",
   );
 
+  console.log("loggedInUser", loggedInUser);
+
   const options = {
     httpOnly: true,
-    secure: false,
+    secure: true,
   };
+
+  console.log("options", options);
 
   return res
     .status(200)
