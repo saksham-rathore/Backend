@@ -34,7 +34,7 @@ const addtocart = asynchandler(async (req, res) => {
   });
 
   if (existingItem) {
-    // Product already in cart → quantity update 
+    // Product already in cart → quantity update
     await Cart.findOneAndUpdate(
       { user: userId, "items.Product": productId },
       { $inc: { "items.$.Quantity": Quantity } },
@@ -57,4 +57,10 @@ const addtocart = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, Cart, "Product added to cart"));
 });
 
-export { addtocart };
+const GetCart = asynchandler(async (req, res) => {
+  const userId = req.user._id;
+  const { id: productId } = req.params;
+  
+});
+
+export { addtocart, GetCart };

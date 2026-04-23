@@ -59,7 +59,7 @@ router.route("/DeleteProduct/:id").delete(verifyJWT, DeleteProduct);
 
 router.route("/addtocart/:id").post(verifyJWT, addtocart);
 
-// router.route("/getcart").get(verifyJWT, GetCart);
+// router.route("/GetCart").get(verifyJWT, GetCart);
 
 // router.route("/updatecart").put(verifyJWT, UpdateCart);
 
