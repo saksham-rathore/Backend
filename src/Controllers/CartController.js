@@ -6,14 +6,14 @@ import { Product } from "../models/Product.User.js";
 import { Cart } from "../models/User.Cart.js";
 
 const addtocart = asynchandler(async (req, res) => {
-  const { productId, quantity } = req.body;
+  const { productId, Quantity } = req.body;
   const userId = req.user._id;
 
-  if (!productId || !quantity) {
-    throw new ApiError(400, "ProductId and quantity are required");
+  if (!productId || !Quantity) {
+    throw new ApiError(400, "ProductId and Quantity are required");
   }
 
-  if (quantity <= 0) {
+  if (Quantity <= 0) {
     throw new ApiError(400, "Quantity must be greater than 0");
   }
 
@@ -28,13 +28,13 @@ const addtocart = asynchandler(async (req, res) => {
   });
 
   if (existingItem) {
-    existingItem.quantity += quantity;
+    existingItem.Quantity += Quantity;
     await existingItem.save();
   } else {
     await Cart.create({
       user: userId,
       product: productId,
-      quantity,
+      Quantity,
     });
   }
 

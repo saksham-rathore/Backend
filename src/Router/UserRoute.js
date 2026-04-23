@@ -8,8 +8,8 @@ import {
 } from "../Controllers/UserController.js";
 import {
   createProduct,
-  // GetAllProducts,
-  // GetSingleProduct,
+  getallProducts,
+  getsingleproduct,
   UpdateProduct,
   DeleteProduct,
 } from "../Controllers/ProductController.js";
@@ -47,17 +47,17 @@ router.route("/refreshAccessToken").post(refreshAccessToken);
 
 router.route("/createProduct").post(verifyJWT, createProduct);
 
-// router.route("/getallproducts").get(verifyJWT, GetAllProducts);
+router.route("/getallproducts").get(verifyJWT, getallProducts);
 
-// router.route("/getsingleproduct").get(verifyJWT, GetSingleProduct);
+router.route("/getsingleproduct/:id").get(verifyJWT, getsingleproduct);
 
-router.route("/updateproduct").put(verifyJWT, UpdateProduct);
+router.route("/UpdateProduct/:id").put(verifyJWT, UpdateProduct);
 
-router.route("/deleteproduct").delete(verifyJWT, DeleteProduct);
+router.route("/DeleteProduct/:id").delete(verifyJWT, DeleteProduct);
 
 // // API IN cart model
 
-router.route("/addtocart").post(verifyJWT, addtocart);
+router.route("/addtocart/:id").post(verifyJWT, addtocart);
 
 // router.route("/getcart").get(verifyJWT, GetCart);
 
