@@ -5,10 +5,11 @@ import { User } from "../models/User.model.js";
 import { Product } from "../models/Product.User.js";
 import { Cart } from "../models/User.Cart.js";
 
+
 const addtocart = asynchandler(async (req, res) => {
   const { id: productId } = req.params;
   const { Quantity } = req.body;
-  const userId = req.user?._id;
+  const userId = req.user._id;
 
   if (!userId) {
     throw new ApiError(401, "User not authenticated")
@@ -18,7 +19,7 @@ const addtocart = asynchandler(async (req, res) => {
     throw new ApiError(400, "ProductId and Quantity are required");
   }
 
-  if (Quantity > 0) {
+  if (Quantity <= 0) {
     throw new ApiError(400, "Quantity must be greater than 0");
   }
 
@@ -28,9 +29,9 @@ const addtocart = asynchandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
-  const existingItem = await Product.findOne({
+  const existingItem = await Cart.findOne({
     user: userId,
-    productId,
+    "items.Product": productId
   });
 
   if (existingItem) {
