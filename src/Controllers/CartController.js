@@ -5,14 +5,13 @@ import { User } from "../models/User.model.js";
 import { Product } from "../models/Product.User.js";
 import { Cart } from "../models/User.Cart.js";
 
-
 const addtocart = asynchandler(async (req, res) => {
   const { id: productId } = req.params;
   const { Quantity } = req.body;
   const userId = req.user._id;
 
   if (!userId) {
-    throw new ApiError(401, "User not authenticated")
+    throw new ApiError(401, "User not authenticated");
   }
 
   if (!productId || !Quantity) {
@@ -31,21 +30,27 @@ const addtocart = asynchandler(async (req, res) => {
 
   const existingItem = await Cart.findOne({
     user: userId,
-    "items.Product": productId
+    "items.Product": productId,
   });
 
   if (existingItem) {
-    existingItem.Quantity += Quantity;
-    await existingItem.save();
+    // Product already in cart → quantity update 
+    await Cart.findOneAndUpdate(
+      { user: userId, "items.Product": productId },
+      { $inc: { "items.$.Quantity": Quantity } },
+      { new: true },
+    );
   } else {
-
-    // Create new cart with the item
-
-    Cart = await Cart.create({
-      user: userId,
-      items: [{ Product: productId, Quantity: Number(Quantity) }],
-    });
+    await Cart.findOneAndUpdate(
+      { user: userId },
+      { $push: { items: { Product: productId, Quantity: Quantity } } },
+      { upsert: true, new: true },
+    );
   }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, Cart, "Product added to cart"));
 
   return res
     .status(200)
