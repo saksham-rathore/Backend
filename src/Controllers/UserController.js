@@ -69,7 +69,7 @@ const loginUser = asynchandler(async (req, res) => {
     throw new ApiError(404, "User does not exist");
   }
 
-  console.log("user", user);
+  // console.log("user", user);
 
   const passwordValidation = await user.ispasswordCorrect(Password);
 
@@ -77,27 +77,27 @@ const loginUser = asynchandler(async (req, res) => {
     throw new ApiError(401, "Invalid user credentials");
   }
 
-  console.log("PasswordValidation", passwordValidation);
+  // console.log("PasswordValidation", passwordValidation);
 
   const { refreshToken, accessToken } = await generateAccessRefreshToken(
     user._id,
   );
 
-  console.log("refreshToken", refreshToken);
-  console.log("accessToken", accessToken);
+  // console.log("refreshToken", refreshToken);
+  // console.log("accessToken", accessToken);
 
   const loggedInUser = await User.findById(user._id).select(
     "-Password -refreshToken",
   );
 
-  console.log("loggedInUser", loggedInUser);
+  // console.log("loggedInUser", loggedInUser);
 
   const options = {
     httpOnly: true,
     secure: true,
   };
 
-  console.log("options", options);
+  // console.log("options", options);
 
   return res
     .status(200)

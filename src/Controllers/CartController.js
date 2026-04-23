@@ -8,32 +8,39 @@ import { Cart } from "../models/User.Cart.js";
 const addtocart = asynchandler(async (req, res) => {
   const { id: productId } = req.params;
   const { Quantity } = req.body;
-  const userId = req.user._id;
+  const userId = req.user?._id;
+
+  if (!userId) {
+    throw new ApiError(401, "User not authenticated")
+  }
 
   if (!productId || !Quantity) {
     throw new ApiError(400, "ProductId and Quantity are required");
   }
 
-  if (Quantity <= 0) {
+  if (Quantity > 0) {
     throw new ApiError(400, "Quantity must be greater than 0");
   }
 
   const product = await Product.findById(productId);
+
   if (!product) {
     throw new ApiError(404, "Product not found");
   }
 
-  const existingItem = await Cart.findOne({
+  const existingItem = await Product.findOne({
     user: userId,
-    "items.Product": productId,
+    productId,
   });
 
   if (existingItem) {
     existingItem.Quantity += Quantity;
     await existingItem.save();
   } else {
+
     // Create new cart with the item
-    cart = await Cart.create({
+
+    Cart = await Cart.create({
       user: userId,
       items: [{ Product: productId, Quantity: Number(Quantity) }],
     });
@@ -41,7 +48,7 @@ const addtocart = asynchandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, cart, "Product added to cart"));
+    .json(new ApiResponse(200, Cart, "Product added to cart"));
 });
 
 export { addtocart };
