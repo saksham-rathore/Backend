@@ -15,9 +15,10 @@ import {
 } from "../Controllers/ProductController.js";
 import {
   addtocart,
-  // GetCart,
-  // UpdateCart,
-  // DeleteCart,
+  GetCart,
+  RemoveCartItem,
+  updatecart,
+  DeleteCart,
 } from "../Controllers/CartController.js";
 import {
   createOrder,
@@ -59,11 +60,13 @@ router.route("/DeleteProduct/:id").delete(verifyJWT, DeleteProduct);
 
 router.route("/addtocart/:id").post(verifyJWT, addtocart);
 
-// router.route("/GetCart").get(verifyJWT, GetCart);
+router.route("/GetCart").get(verifyJWT, GetCart);
 
-// router.route("/updatecart").put(verifyJWT, UpdateCart);
+router.route("/RemoveCartItem").get(verifyJWT, RemoveCartItem);
 
-// router.route("/deletecart").delete(verifyJWT, DeleteCart);
+// router.route("/updatecart").put(verifyJWT, updatecart);
+
+// router.route("/DeleteCart").delete(verifyJWT, DeleteCart);
 
 // // API IN order model
 

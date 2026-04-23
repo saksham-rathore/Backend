@@ -59,8 +59,31 @@ const addtocart = asynchandler(async (req, res) => {
 
 const GetCart = asynchandler(async (req, res) => {
   const userId = req.user._id;
-  const { id: productId } = req.params;
-  
+
+  const cart = await Cart.findOne({ user: userId }).populate(
+    "items.Product",
+    "name price image",
+  );
+
+  if (!cart) {
+    return res.status(200).json(new ApiResponse(200, [], "Cart is empty"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, cart, "Cart fetched Successfully"));
 });
 
-export { addtocart, GetCart };
+const RemoveCartItem = asynchandler(async (req, res) => {
+
+});
+
+const UpdateProduct = asynchandler(async (req, res) => {
+
+});
+
+const DeleteCart = asynchandler(async (req, res) => {
+
+});
+
+export { addtocart, GetCart, RemoveCartItem, UpdateProduct, DeleteCart };
