@@ -6,7 +6,8 @@ import { Product } from "../models/Product.User.js";
 import { Cart } from "../models/User.Cart.js";
 
 const addtocart = asynchandler(async (req, res) => {
-  const { productId, Quantity } = req.body;
+  const { id: productId } = req.params;
+  const { Quantity } = req.body;
   const userId = req.user._id;
 
   if (!productId || !Quantity) {
@@ -31,16 +32,16 @@ const addtocart = asynchandler(async (req, res) => {
     existingItem.Quantity += Quantity;
     await existingItem.save();
   } else {
-    await Cart.create({
+    // Create new cart with the item
+    cart = await Cart.create({
       user: userId,
-      product: productId,
-      Quantity,
+      items: [{ Product: productId, Quantity: Number(Quantity) }],
     });
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "product added to cart"));
+    .json(new ApiResponse(200, cart, "Product added to cart"));
 });
 
 export { addtocart };
