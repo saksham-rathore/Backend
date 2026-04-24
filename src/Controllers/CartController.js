@@ -51,10 +51,6 @@ const addtocart = asynchandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, Cart, "Product added to cart"));
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, Cart, "Product added to cart"));
 });
 
 const GetCart = asynchandler(async (req, res) => {
