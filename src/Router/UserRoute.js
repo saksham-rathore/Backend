@@ -61,9 +61,9 @@ router.route("/addtocart/:id").post(verifyJWT, addtocart);
 
 router.route("/GetCart").get(verifyJWT, GetCart);
 
-router.route("/RemoveCartItem").get(verifyJWT, RemoveCartItem);
+router.route("/RemoveCartItem/:id").get(verifyJWT, RemoveCartItem);
 
-// router.route("/DeleteCart").delete(verifyJWT, DeleteCart);
+router.route("/DeleteCart/:id").delete(verifyJWT, DeleteCart);
 
 // // API IN order model
 
