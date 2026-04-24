@@ -28,9 +28,6 @@ import {
 } from "../Controllers/order.js";
 import {
   Payment,
-  // GetPayment,
-  // UpdatePayment,
-  // DeletePayment,
 } from "../Controllers/Payment.js";
 
 const router = Router();
@@ -80,11 +77,5 @@ router.route("/DeleteOrder/:id").delete(verifyJWT, DeleteOrder);
 // // API IN payment model
 
 router.route("/payment").post(verifyJWT, Payment);
-
-// router.route("/getpayment").get(verifyJWT, GetPayment);
-
-// router.route("/updatepayment").put(verifyJWT, UpdatePayment);
-
-// router.route("/deletepayment").delete(verifyJWT, DeletePayment);
 
 export default router;
