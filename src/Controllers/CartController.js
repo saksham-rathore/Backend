@@ -75,15 +75,57 @@ const GetCart = asynchandler(async (req, res) => {
 });
 
 const RemoveCartItem = asynchandler(async (req, res) => {
+  const userId = req.user._id;
+  const { id: productId } = req.params;
 
-});
+  if (!productId) {
+    throw new ApiError(404, "Product not found");
+  }
 
-const UpdateProduct = asynchandler(async (req, res) => {
+  const existingItem = await Cart.findOne({
+    user: userId,
+    "items.Product": productId,
+  });
 
+  if (!existingItem) {
+    throw new ApiError(404, "Item not found in cart");
+  }
+
+  const updateCart = await Cart.findOneAndUpdate(
+    { user: userId },
+    {
+      $pull: {
+        items: { Product: productId },
+      },
+    },
+    { new: true },
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updateCart, "Item removed from cart successfully"),
+    );
 });
 
 const DeleteCart = asynchandler(async (req, res) => {
+  const userId = req.user._id;
 
+  const cart = await Cart.findOne({
+    user: userId,
+  });
+
+  if (!Cart) {
+    throw new ApiError(404, "Cart not found");
+  }
+
+  await Cart.findOneAndDelete({
+    user: userId,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Cart deleted successfully"));
 });
 
-export { addtocart, GetCart, RemoveCartItem, UpdateProduct, DeleteCart };
+export { addtocart, GetCart, RemoveCartItem, DeleteCart };
