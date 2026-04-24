@@ -69,13 +69,13 @@ router.route("/DeleteCart/:id").delete(verifyJWT, DeleteCart);
 
 router.route("/createOrder").post(verifyJWT, createOrder);
 
-router.route("/getallorders").get(verifyJWT, Getallorders);
+router.route("/Getallorders").get(verifyJWT, Getallorders);
 
-router.route("/getsingleorder").get(verifyJWT, GetSingleOrder);
+router.route("/GetSingleOrder/:id").get(verifyJWT, GetSingleOrder);
 
-router.route("/updateorder").put(verifyJWT, UpdateOrder);
+router.route("/UpdateOrder/:id").put(verifyJWT, UpdateOrder);
 
-router.route("/deleteorder").delete(verifyJWT, DeleteOrder);
+router.route("/DeleteOrder/:id").delete(verifyJWT, DeleteOrder);
 
 // // API IN payment model
 

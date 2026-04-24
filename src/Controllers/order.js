@@ -40,8 +40,9 @@ const Getallorders = asynchandler(async (req, res) => {
 });
 
 const GetSingleOrder = asynchandler(async (req, res) => {
-  const order = await order
-    .findbyId(req.params.id)
+  const { id } = req.params;
+
+  const order = await Order.findById(id)
     .populate("items")
     .populate("Payment");
 
@@ -49,7 +50,9 @@ const GetSingleOrder = asynchandler(async (req, res) => {
     throw new ApiError(404, "Order not found");
   }
 
-  return res.status(200).json(new ApiResponse(200, order, "Order found"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, order, "Order fetched"));
 });
 
 const UpdateOrder = asynchandler(async (req, res) => {
