@@ -13,16 +13,16 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // import routes
-import userRouter from './src/Router/UserRoute.js'
+import userRouter from "./src/Router/UserRoute.js";
 
 // routes declerations
-app.use("/user", userRouter )
+app.use("/user", userRouter);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
-  
+
   return res.status(statusCode).json({
     success: false,
     message,
@@ -30,7 +30,6 @@ app.use((err, req, res, next) => {
     stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 });
-
 
 // Database connection and server start
 connectDB()
@@ -42,3 +41,8 @@ connectDB()
   .catch((err) => {
     console.log("MongoDB connection failed!", err);
   });
+
+app.get("/user/getallproducts", (req, res) => {
+  console.log("🔥 API HIT");
+  res.json({ message: "API working" });
+});
