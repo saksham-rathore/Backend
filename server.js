@@ -2,6 +2,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/config/db.js";
 import "dotenv/config";
+// const cors = require("cors");
+import cors from "cors";
+
 
 const app = express();
 
@@ -12,10 +15,16 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// CORS - must be before routes
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
+
 // import routes
 import userRouter from "./src/Router/UserRoute.js";
 
-// routes declerations
+// routes declarations
 app.use("/user", userRouter);
 
 // Global Error Handler
@@ -31,6 +40,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+
 // Database connection and server start
 connectDB()
   .then(() => {
@@ -42,7 +52,3 @@ connectDB()
     console.log("MongoDB connection failed!", err);
   });
 
-app.get("/user/getallproducts", (req, res) => {
-  console.log("🔥 API HIT");
-  res.json({ message: "API working" });
-});
